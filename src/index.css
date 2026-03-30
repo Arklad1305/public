@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
 @import "tailwindcss";
 
 @theme {
@@ -12,25 +13,31 @@
   --color-dark-100: #b0b0c8;
 
   --color-ps-blue: #0070d1;
-  --color-ps-light: #00aaff;
+  --color-ps-light: #06b6d4;
   --color-ps-dark: #003d7a;
 
   --color-accent-purple: #7c3aed;
-  --color-accent-pink: #ec4899;
+  --color-accent-pink: #d946ef;
   --color-accent-green: #10b981;
-  --color-accent-orange: #f59e0b;
+  --color-accent-orange: #f97316;
+  --color-accent-gold: #f59e0b;
   --color-accent-red: #ef4444;
 
-  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-sans: 'Space Grotesk', system-ui, -apple-system, sans-serif;
+  --font-title: 'Rajdhani', system-ui, -apple-system, sans-serif;
 }
 
 body {
   margin: 0;
   background-color: var(--color-dark-900);
-  color: var(--color-dark-100);
+  color: var(--color-dark-200);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-title);
 }
 
 /* Custom scrollbar */

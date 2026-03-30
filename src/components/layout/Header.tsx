@@ -11,23 +11,23 @@ export default function Header() {
           {/* Logo */}
           <a href="/" className="flex items-center gap-2 group">
             <Gamepad2 className="w-8 h-8 text-ps-blue group-hover:text-ps-light transition-colors" />
-            <span className="text-xl font-bold text-white">
+            <span className="font-title text-2xl font-bold text-slate-100 uppercase tracking-tight">
               Game<span className="text-ps-blue">Vault</span>
             </span>
           </a>
 
           {/* Desktop Nav */}
           <nav className="hidden md:flex items-center gap-8">
-            <a href="#destacados" className="text-dark-100 hover:text-white transition-colors text-sm font-medium">
+            <a href="#destacados" className="text-dark-200 hover:text-slate-100 transition-colors text-sm font-medium uppercase tracking-wider">
               Destacados
             </a>
-            <a href="#mas-vendidos" className="text-dark-100 hover:text-white transition-colors text-sm font-medium">
+            <a href="#mas-vendidos" className="text-dark-200 hover:text-slate-100 transition-colors text-sm font-medium uppercase tracking-wider">
               Más Vendidos
             </a>
-            <a href="#estrenos" className="text-dark-100 hover:text-white transition-colors text-sm font-medium">
+            <a href="#estrenos" className="text-dark-200 hover:text-slate-100 transition-colors text-sm font-medium uppercase tracking-wider">
               Estrenos
             </a>
-            <a href="#ofertas" className="text-dark-100 hover:text-white transition-colors text-sm font-medium">
+            <a href="#ofertas" className="text-dark-200 hover:text-slate-100 transition-colors text-sm font-medium uppercase tracking-wider">
               Ofertas
             </a>
           </nav>
