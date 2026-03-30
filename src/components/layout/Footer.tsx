@@ -9,7 +9,7 @@ export default function Footer() {
           <div>
             <div className="flex items-center gap-2 mb-4">
               <Gamepad2 className="w-6 h-6 text-ps-blue" />
-              <span className="text-lg font-bold text-white">
+              <span className="font-title text-xl font-bold text-slate-100 uppercase tracking-tight">
                 Game<span className="text-ps-blue">Vault</span>
               </span>
             </div>
@@ -21,7 +21,7 @@ export default function Footer() {
 
           {/* Links */}
           <div>
-            <h3 className="text-white font-semibold mb-4 text-sm uppercase tracking-wider">Navegación</h3>
+            <h3 className="font-title text-slate-100 font-bold mb-4 text-base uppercase tracking-wider">Navegación</h3>
             <ul className="space-y-2">
               <li><a href="#destacados" className="text-dark-300 hover:text-ps-light transition-colors text-sm">Destacados</a></li>
               <li><a href="#mas-vendidos" className="text-dark-300 hover:text-ps-light transition-colors text-sm">Más Vendidos</a></li>
@@ -32,7 +32,7 @@ export default function Footer() {
 
           {/* Info */}
           <div>
-            <h3 className="text-white font-semibold mb-4 text-sm uppercase tracking-wider">Información</h3>
+            <h3 className="font-title text-slate-100 font-bold mb-4 text-base uppercase tracking-wider">Información</h3>
             <ul className="space-y-2">
               <li><span className="text-dark-300 text-sm">Cuentas Primarias y Secundarias</span></li>
               <li><span className="text-dark-300 text-sm">Keys digitales con entrega automática</span></li>

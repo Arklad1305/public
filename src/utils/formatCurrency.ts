@@ -1,3 +1,3 @@
-export function formatCurrency(cents: number): string {
-  return `$${(cents / 100).toFixed(2)}`;
+export function formatCurrency(amount: number): string {
+  return `$${amount.toLocaleString('es-CL')}`;
 }

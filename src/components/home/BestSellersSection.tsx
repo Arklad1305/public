@@ -7,7 +7,7 @@ export default function BestSellersSection() {
     <section id="mas-vendidos" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div className="flex items-center gap-3 mb-8">
         <TrendingUp className="w-6 h-6 text-accent-green" />
-        <h2 className="text-2xl sm:text-3xl font-bold text-white">Más Vendidos</h2>
+        <h2 className="font-title text-3xl sm:text-4xl font-bold text-slate-100 uppercase tracking-tight">Más Vendidos</h2>
       </div>
       <ProductGrid products={bestSellers} />
     </section>
