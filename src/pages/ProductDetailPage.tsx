@@ -7,6 +7,7 @@ import { products } from '../data/products';
 import { formatCurrency } from '../utils/formatCurrency';
 import type { Platform, AccountVariant } from '../types/product';
 import Badge from '../components/ui/Badge';
+import ProductCard from '../components/product/ProductCard';
 
 gsap.registerPlugin(useGSAP);
 
@@ -22,6 +23,14 @@ export default function ProductDetailPage() {
   );
   const [selectedVariant, setSelectedVariant] = useState<AccountVariant>('primary');
 
+  // Related products: same category first, then others, excluding current
+  const relatedProducts = product
+    ? [
+        ...products.filter(p => p.id !== product.id && p.category === product.category),
+        ...products.filter(p => p.id !== product.id && p.category !== product.category),
+      ].slice(0, 6)
+    : [];
+
   useGSAP(() => {
     if (!product) return;
     const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
@@ -31,7 +40,8 @@ export default function ProductDetailPage() {
       .from('.detail-platform-btn', { y: 15, opacity: 0, stagger: 0.1, duration: 0.3 }, '-=0.3')
       .from('.detail-variant-card', { y: 20, opacity: 0, stagger: 0.15, duration: 0.4 }, '-=0.2')
       .from('.detail-price-box', { scale: 0.9, opacity: 0, duration: 0.4, ease: 'back.out(2)' }, '-=0.1')
-      .from('.detail-legend', { y: 15, opacity: 0, duration: 0.4 }, '-=0.2');
+      .from('.detail-legend', { y: 15, opacity: 0, duration: 0.4 }, '-=0.2')
+      .from('.related-section', { y: 30, opacity: 0, duration: 0.5 }, '-=0.1');
   }, { scope: containerRef, dependencies: [slug] });
 
   if (!product) {
@@ -120,7 +130,7 @@ export default function ProductDetailPage() {
                         : 'glass text-dark-200 hover:text-white hover:bg-white/10'
                     }`}
                   >
-                    {platform.toUpperCase()}
+                    {platform === 'ps4' ? 'PlayStation 4' : 'PlayStation 5'}
                   </button>
                 ))}
               </div>
@@ -227,6 +237,25 @@ export default function ProductDetailPage() {
             </div>
           </div>
         </div>
+
+        {/* ===== RELATED PRODUCTS ===== */}
+        {relatedProducts.length > 0 && (
+          <div className="related-section mt-16">
+            <div className="flex items-center justify-between mb-8">
+              <h2 className="font-title text-3xl sm:text-4xl font-bold uppercase text-slate-100 tracking-tight">
+                También te puede{' '}
+                <span className="bg-gradient-to-r from-brand-pink to-brand-blue bg-clip-text text-transparent">
+                  interesar
+                </span>
+              </h2>
+            </div>
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
+              {relatedProducts.map(p => (
+                <ProductCard key={p.id} product={p} />
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

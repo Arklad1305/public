@@ -23,7 +23,7 @@ export default function HeroBanner() {
       .from('.hero-feature', { y: 20, opacity: 0, stagger: 0.1, duration: 0.4 }, '-=0.2')
       .from('.hero-card', { x: 60, opacity: 0, scale: 0.9, duration: 0.8, ease: 'back.out(1.4)' }, '-=0.6');
 
-    // Floating animation on the card
+    // Floating animation on the card — transform only, GPU-accelerated
     gsap.to('.hero-card', {
       y: -8,
       duration: 2.5,
@@ -32,9 +32,8 @@ export default function HeroBanner() {
       repeat: -1,
     });
 
-    // Glow pulse on background blurs
+    // Glow pulse — only animate opacity, NOT scale (avoids re-compositing large blurred layers)
     gsap.to('.hero-glow-pink', {
-      scale: 1.2,
       opacity: 0.08,
       duration: 4,
       ease: 'sine.inOut',
@@ -42,7 +41,6 @@ export default function HeroBanner() {
       repeat: -1,
     });
     gsap.to('.hero-glow-blue', {
-      scale: 1.3,
       opacity: 0.06,
       duration: 5,
       ease: 'sine.inOut',
@@ -54,10 +52,10 @@ export default function HeroBanner() {
 
   return (
     <section ref={containerRef} className="relative overflow-hidden bg-gradient-to-br from-dark-800 via-dark-900 to-brand-blue-dark/10 min-h-[90vh] flex items-center">
-      {/* Background glows */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="hero-glow-pink absolute top-20 left-10 w-80 h-80 bg-brand-pink rounded-full blur-[140px] opacity-5" />
-        <div className="hero-glow-blue absolute bottom-20 right-10 w-96 h-96 bg-brand-blue rounded-full blur-[160px] opacity-4" />
+      {/* Background glows — static size, only opacity animates */}
+      <div className="absolute inset-0 pointer-events-none" style={{ willChange: 'auto' }}>
+        <div className="hero-glow-pink absolute top-20 left-10 w-80 h-80 rounded-full opacity-[0.04]" style={{ background: 'var(--color-brand-pink)', filter: 'blur(140px)', willChange: 'opacity' }} />
+        <div className="hero-glow-blue absolute bottom-20 right-10 w-96 h-96 rounded-full opacity-[0.03]" style={{ background: 'var(--color-brand-blue)', filter: 'blur(160px)', willChange: 'opacity' }} />
       </div>
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 w-full">
@@ -130,7 +128,7 @@ export default function HeroBanner() {
 
           {/* Right: Featured card */}
           {featuredProduct && (
-            <div className="hero-card flex justify-center lg:justify-end">
+            <div className="hero-card flex justify-center lg:justify-end" style={{ willChange: 'transform' }}>
               <div className="w-full max-w-xs sm:max-w-sm">
                 <FeaturedProductCard
                   product={featuredProduct}
