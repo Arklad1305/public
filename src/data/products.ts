@@ -8,7 +8,7 @@ export const products: Product[] = [
     description: 'Embárcate en un viaje épico con Kratos y Atreus por los nueve reinos nórdicos.',
     type: 'account',
     category: 'action',
-    coverImage: 'https://image.api.playstation.com/vulcan/ap/rnd/202207/1210/4xJ8XB3bi888QTLZYdqbuu8i.png',
+    coverImage: 'https://t.ctcdn.com.br/g0Ry_5WX-rUe4U3T9P7U1HH70_8=/600x600/smart/i609307.png',
     platforms: ['ps4', 'ps5'],
     pricing: [
       { platform: 'ps5', accountVariant: 'primary', price: 5999, originalPrice: 6999 },
