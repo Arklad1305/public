@@ -1,49 +1,96 @@
+import { useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Zap, Shield, Clock } from 'lucide-react';
+import gsap from 'gsap';
+import { useGSAP } from '@gsap/react';
 import FeaturedProductCard from '../product/FeaturedProductCard';
 import { featuredProducts } from '../../data/products';
 
+gsap.registerPlugin(useGSAP);
+
 export default function HeroBanner() {
   const featuredProduct = featuredProducts[0];
+  const containerRef = useRef<HTMLDivElement>(null);
+  const navigate = useNavigate();
+
+  useGSAP(() => {
+    const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+
+    tl.from('.hero-badge', { y: -30, opacity: 0, duration: 0.6 })
+      .from('.hero-title', { y: 40, opacity: 0, duration: 0.8 }, '-=0.3')
+      .from('.hero-subtitle', { y: 30, opacity: 0, duration: 0.6 }, '-=0.4')
+      .from('.hero-buttons a', { y: 20, opacity: 0, stagger: 0.15, duration: 0.5 }, '-=0.3')
+      .from('.hero-feature', { y: 20, opacity: 0, stagger: 0.1, duration: 0.4 }, '-=0.2')
+      .from('.hero-card', { x: 60, opacity: 0, scale: 0.9, duration: 0.8, ease: 'back.out(1.4)' }, '-=0.6');
+
+    // Floating animation on the card
+    gsap.to('.hero-card', {
+      y: -8,
+      duration: 2.5,
+      ease: 'sine.inOut',
+      yoyo: true,
+      repeat: -1,
+    });
+
+    // Glow pulse on background blurs
+    gsap.to('.hero-glow-pink', {
+      scale: 1.2,
+      opacity: 0.08,
+      duration: 4,
+      ease: 'sine.inOut',
+      yoyo: true,
+      repeat: -1,
+    });
+    gsap.to('.hero-glow-blue', {
+      scale: 1.3,
+      opacity: 0.06,
+      duration: 5,
+      ease: 'sine.inOut',
+      yoyo: true,
+      repeat: -1,
+      delay: 1,
+    });
+  }, { scope: containerRef });
 
   return (
-    <section className="relative overflow-hidden bg-gradient-to-br from-dark-800 via-dark-900 to-ps-dark/20">
-      {/* Background decorations - reduced opacity */}
-      <div className="absolute inset-0 opacity-5">
-        <div className="absolute top-10 left-10 w-72 h-72 bg-ps-blue rounded-full blur-[120px]" />
-        <div className="absolute bottom-10 right-10 w-96 h-96 bg-accent-purple rounded-full blur-[150px]" />
+    <section ref={containerRef} className="relative overflow-hidden bg-gradient-to-br from-dark-800 via-dark-900 to-brand-blue-dark/10 min-h-[90vh] flex items-center">
+      {/* Background glows */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="hero-glow-pink absolute top-20 left-10 w-80 h-80 bg-brand-pink rounded-full blur-[140px] opacity-5" />
+        <div className="hero-glow-blue absolute bottom-20 right-10 w-96 h-96 bg-brand-blue rounded-full blur-[160px] opacity-4" />
       </div>
 
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 w-full">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          {/* Left: Text content */}
+          {/* Left: Text */}
           <div className="text-center lg:text-left">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-ps-blue/10 border border-ps-blue/20 rounded-full text-ps-light text-sm font-medium mb-6">
+            <div className="hero-badge inline-flex items-center gap-2 px-4 py-1.5 glass rounded-full text-brand-blue-light text-sm font-medium mb-6">
               <Zap className="w-4 h-4" />
               Entrega instantánea tras confirmar pago
             </div>
 
-            <h1 className="font-title text-5xl sm:text-6xl lg:text-7xl font-black text-slate-100 mb-6 leading-none uppercase tracking-tight">
+            <h1 className="hero-title font-title text-5xl sm:text-6xl lg:text-7xl font-black text-slate-100 mb-6 leading-none uppercase tracking-tight">
               Jugá más.{' '}
-              <span className="bg-gradient-to-r from-ps-blue to-accent-purple bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-brand-pink to-brand-blue bg-clip-text text-transparent">
                 Pagá menos.
               </span>
             </h1>
 
-            <p className="text-slate-400 text-base sm:text-lg mb-8 leading-relaxed max-w-lg mx-auto lg:mx-0">
+            <p className="hero-subtitle text-slate-400 text-base sm:text-lg mb-8 leading-relaxed max-w-lg mx-auto lg:mx-0">
               Cuentas primarias y secundarias para PS4 y PS5. Keys digitales con entrega automática.
               Los mejores precios del mercado.
             </p>
 
-            <div className="flex flex-wrap justify-center lg:justify-start gap-4 mb-10">
+            <div className="hero-buttons flex flex-wrap justify-center lg:justify-start gap-4 mb-10">
               <a
                 href="#destacados"
-                className="px-6 py-3 bg-ps-blue hover:bg-ps-light text-white font-semibold rounded-lg transition-colors shadow-lg shadow-ps-blue/10"
+                className="px-6 py-3 bg-gradient-to-r from-brand-pink to-brand-blue hover:from-brand-pink-light hover:to-brand-blue-light text-white font-semibold rounded-lg transition-all shadow-lg shadow-brand-pink/15"
               >
                 Ver Catálogo
               </a>
               <a
                 href="#ofertas"
-                className="px-6 py-3 bg-dark-600 hover:bg-dark-500 text-white font-semibold rounded-lg transition-colors border border-dark-500"
+                className="px-6 py-3 glass text-white font-semibold rounded-lg transition-colors hover:bg-white/10"
               >
                 Ofertas de la Semana
               </a>
@@ -51,8 +98,8 @@ export default function HeroBanner() {
 
             {/* Features */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
-              <div className="flex items-center gap-3 justify-center lg:justify-start">
-                <div className="p-2 bg-accent-green/10 rounded-lg">
+              <div className="hero-feature flex items-center gap-3 justify-center lg:justify-start">
+                <div className="p-2 glass rounded-lg">
                   <Shield className="w-5 h-5 text-accent-green" />
                 </div>
                 <div className="text-left">
@@ -60,18 +107,18 @@ export default function HeroBanner() {
                   <p className="text-dark-300 text-xs">Pago verificado</p>
                 </div>
               </div>
-              <div className="flex items-center gap-3 justify-center lg:justify-start">
-                <div className="p-2 bg-ps-blue/10 rounded-lg">
-                  <Zap className="w-5 h-5 text-ps-light" />
+              <div className="hero-feature flex items-center gap-3 justify-center lg:justify-start">
+                <div className="p-2 glass rounded-lg">
+                  <Zap className="w-5 h-5 text-brand-blue-light" />
                 </div>
                 <div className="text-left">
                   <p className="text-slate-200 text-sm font-semibold">Entrega Inmediata</p>
                   <p className="text-dark-300 text-xs">Automática post-pago</p>
                 </div>
               </div>
-              <div className="flex items-center gap-3 justify-center lg:justify-start">
-                <div className="p-2 bg-accent-purple/10 rounded-lg">
-                  <Clock className="w-5 h-5 text-accent-purple" />
+              <div className="hero-feature flex items-center gap-3 justify-center lg:justify-start">
+                <div className="p-2 glass rounded-lg">
+                  <Clock className="w-5 h-5 text-brand-pink-light" />
                 </div>
                 <div className="text-left">
                   <p className="text-slate-200 text-sm font-semibold">Soporte 24/7</p>
@@ -81,11 +128,14 @@ export default function HeroBanner() {
             </div>
           </div>
 
-          {/* Right: Featured product card */}
+          {/* Right: Featured card */}
           {featuredProduct && (
-            <div className="flex justify-center lg:justify-end">
+            <div className="hero-card flex justify-center lg:justify-end">
               <div className="w-full max-w-xs sm:max-w-sm">
-                <FeaturedProductCard product={featuredProduct} />
+                <FeaturedProductCard
+                  product={featuredProduct}
+                  onViewOptions={() => navigate(`/producto/${featuredProduct.slug}`)}
+                />
               </div>
             </div>
           )}
