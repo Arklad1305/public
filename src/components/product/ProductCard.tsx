@@ -1,3 +1,6 @@
+import { useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
+import gsap from 'gsap';
 import type { Product } from '../../types/product';
 import { formatCurrency } from '../../utils/formatCurrency';
 import Badge from '../ui/Badge';
@@ -13,9 +16,31 @@ export default function ProductCard({ product, showDiscount = false }: ProductCa
   const maxOriginalPrice = hasOriginalPrice
     ? Math.max(...product.pricing.filter(p => p.originalPrice).map(p => p.originalPrice!))
     : undefined;
+  const navigate = useNavigate();
+  const cardRef = useRef<HTMLDivElement>(null);
+
+  const handleViewOptions = () => {
+    const card = cardRef.current;
+    if (!card) {
+      navigate(`/producto/${product.slug}`);
+      return;
+    }
+    gsap.to(card, {
+      scale: 0.95,
+      opacity: 0.8,
+      duration: 0.15,
+      ease: 'power2.in',
+      onComplete: () => {
+        navigate(`/producto/${product.slug}`);
+      },
+    });
+  };
 
   return (
-    <div className="group relative bg-dark-800 rounded-xl overflow-hidden border border-dark-600 hover:border-ps-blue/40 transition-all duration-300 hover:shadow-lg hover:shadow-ps-blue/5 hover:-translate-y-1">
+    <div
+      ref={cardRef}
+      className="group relative glass-card rounded-xl overflow-hidden hover:border-brand-pink/30 transition-all duration-300 hover:shadow-lg hover:shadow-brand-pink/5 hover:-translate-y-1"
+    >
       {/* Image */}
       <div className="relative aspect-[3/4] overflow-hidden bg-dark-700">
         <img
@@ -36,7 +61,6 @@ export default function ProductCard({ product, showDiscount = false }: ProductCa
           {product.type === 'digital_key' && <Badge variant="key">KEY</Badge>}
         </div>
 
-        {/* Discount / New badge */}
         {showDiscount && product.weeklyDealDiscount && (
           <div className="absolute top-3 right-3">
             <Badge variant="discount">-{product.weeklyDealDiscount}%</Badge>
@@ -49,9 +73,9 @@ export default function ProductCard({ product, showDiscount = false }: ProductCa
         )}
       </div>
 
-      {/* Content - Glassmorphic */}
-      <div className="p-4 bg-dark-800/60 backdrop-blur-sm border-t border-white/5">
-        <h3 className="font-title font-bold text-base sm:text-lg text-slate-100 mb-1 line-clamp-2 group-hover:text-ps-light transition-colors leading-tight">
+      {/* Content */}
+      <div className="p-4 border-t border-white/5">
+        <h3 className="font-title font-bold text-base sm:text-lg text-slate-100 mb-1 line-clamp-2 group-hover:text-brand-pink-light transition-colors leading-tight">
           {product.title}
         </h3>
 
@@ -59,7 +83,6 @@ export default function ProductCard({ product, showDiscount = false }: ProductCa
           {product.description}
         </p>
 
-        {/* Pricing */}
         <div className="space-y-2.5">
           <div className="flex items-baseline gap-2">
             <span className="text-[11px] text-dark-300 uppercase tracking-wider font-semibold">desde</span>
@@ -75,7 +98,6 @@ export default function ProductCard({ product, showDiscount = false }: ProductCa
             </div>
           )}
 
-          {/* Account type indicators */}
           {product.type === 'account' && (
             <div className="flex gap-1.5">
               <Badge variant="primary">Primaria</Badge>
@@ -83,8 +105,10 @@ export default function ProductCard({ product, showDiscount = false }: ProductCa
             </div>
           )}
 
-          {/* Ver opciones button */}
-          <button className="w-full py-2 px-3 bg-ps-blue/90 hover:bg-ps-blue text-white font-semibold text-sm rounded-lg transition-colors cursor-pointer">
+          <button
+            onClick={handleViewOptions}
+            className="w-full py-2 px-3 bg-gradient-to-r from-brand-pink/80 to-brand-blue/80 hover:from-brand-pink hover:to-brand-blue text-white font-semibold text-sm rounded-lg transition-all cursor-pointer"
+          >
             Ver opciones
           </button>
         </div>

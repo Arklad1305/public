@@ -1,23 +1,16 @@
-import Header from './components/layout/Header';
-import Footer from './components/layout/Footer';
-import HeroBanner from './components/home/HeroBanner';
-import FeaturedSection from './components/home/FeaturedSection';
-import BestSellersSection from './components/home/BestSellersSection';
-import NewReleasesSection from './components/home/NewReleasesSection';
-import WeeklyDealsSection from './components/home/WeeklyDealsSection';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import HomePage from './pages/HomePage';
+import ProductDetailPage from './pages/ProductDetailPage';
+import AuthPage from './pages/AuthPage';
 
 export default function App() {
   return (
-    <div className="min-h-screen bg-dark-900 flex flex-col">
-      <Header />
-      <main className="flex-1">
-        <HeroBanner />
-        <FeaturedSection />
-        <BestSellersSection />
-        <NewReleasesSection />
-        <WeeklyDealsSection />
-      </main>
-      <Footer />
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/producto/:slug" element={<ProductDetailPage />} />
+        <Route path="/auth" element={<AuthPage />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
